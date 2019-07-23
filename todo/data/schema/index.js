@@ -11,9 +11,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import {GraphQLObjectType, GraphQLSchema} from 'graphql';
+import {GraphQLObjectType, GraphQLSchema, parse} from 'graphql';
+import { extendSchema } from 'graphql/utilities';
 
 import {nodeField} from './nodes.js';
+import {ListItemsQuery} from './queries/ListItemsQuery';
+import {ListItemQuery} from './queries/ListItemQuery';
 import {UserQuery} from './queries/UserQuery';
 import {AddTodoMutation} from './mutations/AddTodoMutation';
 import {ChangeTodoStatusMutation} from './mutations/ChangeTodoStatusMutation';
@@ -22,13 +25,34 @@ import {RemoveCompletedTodosMutation} from './mutations/RemoveCompletedTodosMuta
 import {RemoveTodoMutation} from './mutations/RemoveTodoMutation';
 import {RenameTodoMutation} from './mutations/RenameTodoMutation';
 
+const ListItemQueries = new GraphQLObjectType({
+  name: 'ListItemQueries',
+  fields: {
+    listItems: ListItemsQuery,
+  },
+}); 
+
 const Query = new GraphQLObjectType({
   name: 'Query',
   fields: {
     user: UserQuery,
     node: nodeField,
+    ListItem: ListItemsQuery,
+    listItems: ListItemsQuery,
+    ListItemQuery,
   },
 });
+
+
+
+const extension = `
+type ListItemQueries {
+  listItems(id: String!): [ListItem]
+}
+extend type Query {
+  ListItemQueries: ListItemQueries
+}`;
+
 
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -42,7 +66,11 @@ const Mutation = new GraphQLObjectType({
   },
 });
 
-export const schema = new GraphQLSchema({
+export const _schema = new GraphQLSchema({
   query: Query,
-  mutation: Mutation,
+  mutation: Mutation
 });
+export const schema = extendSchema(_schema, parse(extension));
+//require("fs").writeFileSync("./schema.json", JSON.stringify(schema, null,))
+// export const schema = extendSchema(_schema, parse(extension));
+// console.log(schema)

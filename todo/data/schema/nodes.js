@@ -29,13 +29,17 @@ import {
   nodeDefinitions,
 } from 'graphql-relay';
 
+
+
 import {
+  ListItem,
   Todo,
   User,
   USER_ID,
   getTodoOrThrow,
   getTodos,
   getUserOrThrow,
+  getListItemOrThrow,
 } from '../database';
 
 // $FlowFixMe graphql-relay types not available in flow-typed, strengthen this typing
@@ -47,18 +51,46 @@ const {nodeInterface, nodeField} = nodeDefinitions(
       return getTodoOrThrow(id);
     } else if (type === 'User') {
       return getUserOrThrow(id);
+    } else if (type === 'ListItem') {
+      return getListItemOrThrow(id);
     }
     return null;
   },
   (obj: {}): ?GraphQLObjectType => {
+    console.log(JSON.stringify(obj, null, 4))
     if (obj instanceof Todo) {
       return GraphQLTodo;
     } else if (obj instanceof User) {
       return GraphQLUser;
+    } else if (obj instanceof ListItem) {
+      return GraphQLListItem;
     }
     return null;
   },
 );
+
+
+
+
+const GraphQLListItem = new GraphQLObjectType({
+  name: 'ListItem',
+  fields: {
+    id: globalIdField('ListItem'),
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (listItem: ListItem): string => listItem.name
+    },
+    one: {
+      type: new GraphQLNonNull(GraphQLInt),
+      resolve: (listItem: ListItem): number => listItem.one
+    },
+    two: {
+      type: new GraphQLNonNull(GraphQLInt),
+      resolve: (listItem: ListItem): number => listItem.two
+    }
+  },
+  interfaces: [nodeInterface]
+})
 
 const GraphQLTodo = new GraphQLObjectType({
   name: 'Todo',
@@ -122,4 +154,4 @@ const GraphQLUser = new GraphQLObjectType({
   interfaces: [nodeInterface],
 });
 
-export {nodeField, GraphQLTodo, GraphQLTodoEdge, GraphQLUser};
+export {nodeField, GraphQLTodo, GraphQLTodoEdge, GraphQLUser, GraphQLListItem};

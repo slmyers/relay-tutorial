@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "start": "babel-node ./server.js",
+    "start:watch": "nodemon yarn start",
     "build": "relay-compiler --src ./js/ --schema ./data/schema.graphql --artifactDirectory ./__generated__/relay",
     "flow-typed": "flow-typed install --flowVersion=0.94.0",
     "update-schema": "babel-node ./scripts/updateSchema.js",
@@ -13,7 +14,10 @@
     "express-graphql": "^0.7.1",
     "graphql": "^14.1.1",
     "graphql-relay": "^0.6.0",
+    "lorem-ipsum": "^2.0.3",
+    "nodemon": "^1.19.1",
     "prop-types": "^15.7.2",
+    "random-int": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-relay": "^5.0.0",

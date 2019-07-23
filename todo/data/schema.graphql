@@ -65,14 +65,39 @@ type PageInfo {
   endCursor: String
 }
 
+
+type ListItemQueries {
+  listItems(id: String!): [ListItem]!
+  test: String
+}
+
+type ListItemQuery {
+  listItems(id: String!): [ListItem]!
+}
+
 type Query {
+  listItems(id: String!): [ListItem]!
+
   user(id: String): User
+
+  listItem(id: String): ListItem
+
+  ListItem: ListItemQueries
+
+  ListItemQueries: ListItemQueries
+
+  ListItemQuery: ListItemQuery
 
   """Fetches an object given its ID"""
   node(
     """The ID of an object"""
     id: ID!
   ): Node
+}
+
+
+extend type Query {
+  ListItemQueries: ListItemQueries
 }
 
 input RemoveCompletedTodosInput {
@@ -141,4 +166,12 @@ type User implements Node {
   todos(status: String = "any", after: String, first: Int, before: String, last: Int): TodoConnection
   totalCount: Int!
   completedCount: Int!
+}
+
+type ListItem implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  one: Int
+  two: Int
 }

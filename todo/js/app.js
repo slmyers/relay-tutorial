@@ -27,6 +27,8 @@ import {
 } from 'relay-runtime';
 
 import TodoApp from './components/TodoApp';
+import List from './components/List';
+import ListItem from './components/ListItem';
 import type {appQueryResponse} from 'relay/appQuery.graphql';
 
 async function fetchQuery(
@@ -52,26 +54,65 @@ const modernEnvironment: Environment = new Environment({
   store: new Store(new RecordSource()),
 });
 
+export const appQuery = graphql`
+  query appQuery($userId: String) {
+    user(id: $userId) {
+      ...TodoApp_user
+    }
+
+    listItems(id: "TEST") @relay(plural: true) {
+      id
+      name
+      one 
+      two
+
+      ...ListItem_item
+    }
+
+    ListItemQuery {
+      listItems(id: "TEST") @relay(plural: true) {
+        id
+        name
+      }
+
+      ...List_list
+    }
+    
+  }
+` 
+
 const rootElement = document.getElementById('root');
 
 if (rootElement) {
   ReactDOM.render(
     <QueryRenderer
       environment={modernEnvironment}
-      query={graphql`
-        query appQuery($userId: String) {
-          user(id: $userId) {
-            ...TodoApp_user
-          }
-        }
-      `}
+      query={appQuery}
       variables={{
         // Mock authenticated ID that matches database
         userId: 'me',
       }}
       render={({error, props}: {error: ?Error, props: ?appQueryResponse}) => {
-        if (props && props.user) {
-          return <TodoApp user={props.user} />;
+        if (props && props.user && props.listItems && props.ListItemQuery) {
+          const user = props.user
+          const item = props.listItems[0]
+          const list = props.ListItemQuery
+          console.log(props)
+          // const list = {
+          //   __id: props.__id,
+          //   __fragments: props.__fragments,
+          //   __fragmentOwner: props.__fragmentOwner
+          // };
+          //const list = props.list
+          console.log(props)
+          return (
+            <>
+              <ListItem item={item} />
+              <List list={list}/>
+              <TodoApp user={user} />
+            </>
+            
+          );
         } else if (error) {
           return <div>{error.message}</div>;
         }

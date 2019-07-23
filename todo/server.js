@@ -52,6 +52,8 @@ const app: WebpackDevServer = new WebpackDevServer(compiler, {
 // Serve static resources
 app.use('/', express.static(path.resolve(__dirname, 'public')));
 
+// require("fs").writeFileSync("./schema.json", JSON.stringify(schema, null, 4))
+
 // Setup GraphQL endpoint
 app.use(
   '/graphql',

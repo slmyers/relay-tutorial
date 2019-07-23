@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 355b689dbfefe9456f1fb0e175d9faf9
+ * @relayHash b5b45277191195a0663e1668d42a16f7
  */
 
 /* eslint-disable */
@@ -12,10 +12,10 @@ import type { ConcreteRequest } from 'relay-runtime';
 import type { ListItem_item$ref } from "./ListItem_item.graphql";
 import type { List_list$ref } from "./List_list.graphql";
 import type { TodoApp_user$ref } from "./TodoApp_user.graphql";
-export type appQueryVariables = {|
+export type ListRefetchQueryVariables = {|
   userId?: ?string
 |};
-export type appQueryResponse = {|
+export type ListRefetchQueryResponse = {|
   +user: ?{|
     +$fragmentRefs: TodoApp_user$ref
   |},
@@ -27,22 +27,18 @@ export type appQueryResponse = {|
     +$fragmentRefs: ListItem_item$ref,
   |}>,
   +ListItemQuery: ?{|
-    +listItems: $ReadOnlyArray<?{|
-      +id: string,
-      +name: ?string,
-    |}>,
-    +$fragmentRefs: List_list$ref,
+    +$fragmentRefs: List_list$ref
   |},
 |};
-export type appQuery = {|
-  variables: appQueryVariables,
-  response: appQueryResponse,
+export type ListRefetchQuery = {|
+  variables: ListRefetchQueryVariables,
+  response: ListRefetchQueryResponse,
 |};
 */
 
 
 /*
-query appQuery(
+query ListRefetchQuery(
   $userId: String
 ) {
   user(id: $userId) {
@@ -57,10 +53,6 @@ query appQuery(
     ...ListItem_item
   }
   ListItemQuery {
-    listItems(id: "TEST") {
-      id
-      name
-    }
     ...List_list
   }
 }
@@ -197,27 +189,14 @@ v6 = {
   "args": null,
   "storageKey": null
 },
-v7 = {
-  "kind": "LinkedField",
-  "alias": null,
-  "name": "listItems",
-  "storageKey": "listItems(id:\"TEST\")",
-  "args": (v2/*: any*/),
-  "concreteType": "ListItem",
-  "plural": true,
-  "selections": [
-    (v3/*: any*/),
-    (v4/*: any*/)
-  ]
-},
-v8 = [
+v7 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 2147483647
   }
 ],
-v9 = [
+v8 = [
   (v3/*: any*/),
   (v4/*: any*/),
   (v5/*: any*/),
@@ -227,7 +206,7 @@ return {
   "kind": "Request",
   "fragment": {
     "kind": "Fragment",
-    "name": "appQuery",
+    "name": "ListRefetchQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": (v0/*: any*/),
@@ -277,7 +256,6 @@ return {
         "concreteType": "ListItemQuery",
         "plural": false,
         "selections": [
-          (v7/*: any*/),
           {
             "kind": "FragmentSpread",
             "name": "List_list",
@@ -289,7 +267,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "appQuery",
+    "name": "ListRefetchQuery",
     "argumentDefinitions": (v0/*: any*/),
     "selections": [
       {
@@ -328,7 +306,7 @@ return {
             "alias": null,
             "name": "todos",
             "storageKey": "todos(first:2147483647)",
-            "args": (v8/*: any*/),
+            "args": (v7/*: any*/),
             "concreteType": "TodoConnection",
             "plural": false,
             "selections": [
@@ -414,7 +392,7 @@ return {
             "kind": "LinkedHandle",
             "alias": null,
             "name": "todos",
-            "args": (v8/*: any*/),
+            "args": (v7/*: any*/),
             "handle": "connection",
             "key": "TodoList_todos",
             "filters": null
@@ -429,7 +407,7 @@ return {
         "args": (v2/*: any*/),
         "concreteType": "ListItem",
         "plural": true,
-        "selections": (v9/*: any*/)
+        "selections": (v8/*: any*/)
       },
       {
         "kind": "LinkedField",
@@ -440,7 +418,6 @@ return {
         "concreteType": "ListItemQuery",
         "plural": false,
         "selections": [
-          (v7/*: any*/),
           {
             "kind": "LinkedField",
             "alias": "list",
@@ -449,7 +426,7 @@ return {
             "args": (v2/*: any*/),
             "concreteType": "ListItem",
             "plural": true,
-            "selections": (v9/*: any*/)
+            "selections": (v8/*: any*/)
           }
         ]
       }
@@ -457,13 +434,13 @@ return {
   },
   "params": {
     "operationKind": "query",
-    "name": "appQuery",
+    "name": "ListRefetchQuery",
     "id": null,
-    "text": "query appQuery(\n  $userId: String\n) {\n  user(id: $userId) {\n    ...TodoApp_user\n    id\n  }\n  listItems(id: \"TEST\") {\n    id\n    name\n    one\n    two\n    ...ListItem_item\n  }\n  ListItemQuery {\n    listItems(id: \"TEST\") {\n      id\n      name\n    }\n    ...List_list\n  }\n}\n\nfragment TodoApp_user on User {\n  id\n  userId\n  totalCount\n  ...TodoListFooter_user\n  ...TodoList_user\n}\n\nfragment ListItem_item on ListItem {\n  id\n  name\n  two\n}\n\nfragment List_list on ListItemQuery {\n  list: listItems(id: \"TEST\") {\n    id\n    name\n    one\n    two\n  }\n}\n\nfragment TodoListFooter_user on User {\n  id\n  userId\n  completedCount\n  todos(first: 2147483647) {\n    edges {\n      node {\n        id\n        complete\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  totalCount\n}\n\nfragment TodoList_user on User {\n  todos(first: 2147483647) {\n    edges {\n      node {\n        id\n        complete\n        ...Todo_todo\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n  userId\n  totalCount\n  completedCount\n  ...Todo_user\n}\n\nfragment Todo_todo on Todo {\n  complete\n  id\n  text\n}\n\nfragment Todo_user on User {\n  id\n  userId\n  totalCount\n  completedCount\n}\n",
+    "text": "query ListRefetchQuery(\n  $userId: String\n) {\n  user(id: $userId) {\n    ...TodoApp_user\n    id\n  }\n  listItems(id: \"TEST\") {\n    id\n    name\n    one\n    two\n    ...ListItem_item\n  }\n  ListItemQuery {\n    ...List_list\n  }\n}\n\nfragment TodoApp_user on User {\n  id\n  userId\n  totalCount\n  ...TodoListFooter_user\n  ...TodoList_user\n}\n\nfragment ListItem_item on ListItem {\n  id\n  name\n  two\n}\n\nfragment List_list on ListItemQuery {\n  list: listItems(id: \"TEST\") {\n    id\n    name\n    one\n    two\n  }\n}\n\nfragment TodoListFooter_user on User {\n  id\n  userId\n  completedCount\n  todos(first: 2147483647) {\n    edges {\n      node {\n        id\n        complete\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  totalCount\n}\n\nfragment TodoList_user on User {\n  todos(first: 2147483647) {\n    edges {\n      node {\n        id\n        complete\n        ...Todo_todo\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n  userId\n  totalCount\n  completedCount\n  ...Todo_user\n}\n\nfragment Todo_todo on Todo {\n  complete\n  id\n  text\n}\n\nfragment Todo_user on User {\n  id\n  userId\n  totalCount\n  completedCount\n}\n",
     "metadata": {}
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'f698ba30adea1c57c1cb846c1309dbc7';
+(node/*: any*/).hash = 'f776d8ef20325ff1341aff6b8e0993ef';
 module.exports = node;

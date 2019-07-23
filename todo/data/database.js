@@ -10,6 +10,8 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+import { LoremIpsum } from "lorem-ipsum";
+import randomInt from "random-int";
 
 export class Todo {
   +id: string;
@@ -29,6 +31,37 @@ export class User {
   constructor(id: string) {
     this.id = id;
   }
+}
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4
+  }
+});
+
+
+export class ListItem {
+  +id: string;
+  +name: string;
+  +one: number;
+  +two: number;
+
+  constructor(id: string) {
+    this.id = id;
+    this.name = lorem.generateWords(1);
+    this.one = randomInt(0, 199),
+    this.two = randomInt(0, 199)
+  }
+}
+
+export function getListItemOrThrow(id: string): ListItem {
+  const z = new ListItem(lorem.generateWords(1));
+  return z;
 }
 
 // Mock authenticated ID
