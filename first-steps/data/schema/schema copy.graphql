@@ -1,0 +1,37 @@
+input createAndSetUserInput {
+  clientMutationId: String
+}
+
+type createAndSetUserPayload {
+  user: User!
+  clientMutationId: String
+}
+
+type Mutation {
+  createAndSetUser(input: createAndSetUserInput!): createAndSetUserPayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+type Query {
+  user(id: String): User
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+  userId: Int!
+  name: String!
+  email: String!
+  color: String!
+}

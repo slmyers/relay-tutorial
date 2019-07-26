@@ -1,0 +1,39 @@
+{
+  "scripts": {
+    "start": "node ./index.js",
+    "start:watch": "nodemon yarn start",
+    "build": "relay-compiler --src ./js/ --schema ./data/schema/schema.graphql --artifactDirectory ./__generated__/relay",
+    "update-schema": "node ./scripts/updateSchema.js"
+  },
+  "name": "first-steps",
+  "version": "0.0.0",
+  "description": "The first steps in learning Relay",
+  "main": "index.js",
+  "author": "slmyers",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@babel/core": "^7.5.5",
+    "classnames": "^2.2.6",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "faker": "^4.1.0",
+    "graphql": "^14.4.2",
+    "graphql-relay": "^0.6.0",
+    "lorem-ipsum": "^2.0.3",
+    "nodemon": "^1.19.1",
+    "prop-types": "^15.7.2",
+    "random-int": "^2.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-relay": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-react": "^1.0.0",
+    "relay-compiler": "^5.0.0",
+    "webpack": "^4.36.1",
+    "webpack-dev-server": "^3.7.2"
+  }
+}
