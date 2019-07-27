@@ -28,7 +28,7 @@ const modernEnvironment = new Environment({
 });
 // we will return the data for one user
 export const AppQuery = graphql`
-  query AppQuery($userId: String) {
+  query AppQuery($userId: Int) {
     user(id: $userId) {
       id
       userId
@@ -42,17 +42,15 @@ export const AppQuery = graphql`
 const rootElement = document.getElementById("root");
 
 if (rootElement) {
-  zzzzz;
   ReactDOM.render(
     // QueryRenderer is used to request data and control
     // the rendering process during load. It is a relay component.
     <QueryRenderer
       environment={modernEnvironment}
       query={AppQuery}
-      variables={{ userId: "0" }}
+      variables={{ userId: 0 }}
       render={({ error, props }) => {
         if (props && props.user) {
-          alert("hi");
           return <pre>{JSON.stringify(props.user, null, 4)}</pre>;
         } else if (error) {
           return <pre style={{ width: 300 }}>{error.message}</pre>;

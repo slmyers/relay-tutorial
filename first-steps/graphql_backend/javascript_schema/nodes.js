@@ -69,7 +69,7 @@ class Database {
     };
     // the id property must be a string when coming from client
     // so we make the keys strings.
-    this._Users.set(String(this.currentId++), user);
+    this._Users.set(this.currentId++, user);
     return user;
   }
 

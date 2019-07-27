@@ -6,7 +6,8 @@ const {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
-  GraphQLBoolean
+  GraphQLBoolean,
+  GraphQLInt
 } = require("graphql");
 const { nodeField, database, GraphQLUser } = require("./nodes.js");
 // a required Object for the schema
@@ -16,7 +17,7 @@ const Query = new GraphQLObjectType({
   fields: {
     user: {
       type: GraphQLUser,
-      args: { id: { type: GraphQLString } },
+      args: { id: { type: GraphQLInt } },
       resolve: (
         /* the root object, this is the result of the parent resolver*/ _,
         /* the arguements from the client */ { id },

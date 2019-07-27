@@ -13,7 +13,7 @@ interface Node {
 }
 
 type Query {
-  user(id: String): User
+  user(id: Int): User
 
   """Fetches an object given its ID"""
   node(
