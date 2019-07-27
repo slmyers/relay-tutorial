@@ -2,8 +2,8 @@
   "scripts": {
     "start": "node ./index.js",
     "start:watch": "nodemon yarn start",
-    "build": "relay-compiler --src ./js/ --schema ./data/schema/schema.graphql --artifactDirectory ./__generated__/relay",
-    "update-schema": "node ./scripts/updateSchema.js"
+    "build": "relay-compiler --src ./ReactApp/ --schema ./data/schema.graphql --artifactDirectory ./__generated__/relay",
+    "update:schema": "node ./updateSchema.js"
   },
   "name": "first-steps",
   "version": "0.0.0",
@@ -32,6 +32,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-react": "^1.0.0",
+    "babel-plugin-relay": "^5.0.0",
     "relay-compiler": "^5.0.0",
     "webpack": "^4.36.1",
     "webpack-dev-server": "^3.7.2"

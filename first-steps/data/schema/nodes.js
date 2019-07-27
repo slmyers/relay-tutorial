@@ -1,16 +1,37 @@
-const GraphQLBoolean = require('graphql').GraphQLBoolean;
-const GraphQLInt = require('graphql').GraphQLInt;
-const GraphQLNonNull = require('graphql').GraphQLNonNull;
-const GraphQLObjectType = require('graphql').GraphQLObjectType;
-const GraphQLString = require('graphql').GraphQLString;
-const {connectionArgs,connectionDefinitions,connectionFromArray} = require('graphql-relay');
-
+// these provide methods for parsing, serializing and descriptive meta fields  
 const {
-  fromGlobalId,
-  globalIdField,
-  nodeDefinitions,
+  GraphQLInt,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString
+} = require("graphql")
+const {
+  fromGlobalId, // deserialization
+  globalIdField, // graphql type, resolves by serializing value
+  nodeDefinitions, 
 } = require('graphql-relay');
 
+/* Nodes contain data and connections to data
+   We can resolve by type
+
+   query myTypeQuery {
+     User {
+       id
+     }
+   }
+
+   or we can resolve by id
+
+   query AppQuery($userId: String) {
+    user(id: $userId) {
+        id
+    }
+  }
+
+  This function will return a nodeInterface that can be mixedin with other GraphQL types
+  to provide the Type based query. The nodeField will be added to our Query object in
+  the schema, so that we can resolve Types by id.
+*/
 const {nodeInterface, nodeField} = nodeDefinitions(
   globalId => {
     const {type, id} = fromGlobalId(globalId);
@@ -28,6 +49,7 @@ const {nodeInterface, nodeField} = nodeDefinitions(
   },
 );
 
+// a datastructure with mock data to manipulate 
 const faker = require('faker');
 class Database {
     constructor(){
@@ -45,7 +67,9 @@ class Database {
           email: faker.internet.email(),
           color: faker.commerce.color()
       }
-      this._Users.set(this.currentId++, user)
+      // the id property must be a string when coming from client
+      // so we make the keys strings.
+      this._Users.set(String(this.currentId++), user)
       return user
     }
 
@@ -53,11 +77,13 @@ class Database {
         return this._Users
     }
 }
+// declare using var to hoist
 var database = new Database()
 exports.nodeField = nodeField
 exports.database = database
 exports.GraphQLUser = new GraphQLObjectType({
   name: 'User',
+  // TODO: are these fields used?
   fields: {
     id: globalIdField('User'),
     userId: {

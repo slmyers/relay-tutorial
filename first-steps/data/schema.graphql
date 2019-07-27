@@ -1,14 +1,10 @@
-input createAndSetUserInput {
-  clientMutationId: String
-}
-
-type createAndSetUserPayload {
-  user: User!
-  clientMutationId: String
+schema {
+  query: Queryz
+  mutation: Mutation
 }
 
 type Mutation {
-  createAndSetUser(input: createAndSetUserInput!): createAndSetUserPayload
+  dummy: Boolean
 }
 
 """An object with an ID"""
@@ -17,7 +13,7 @@ interface Node {
   id: ID!
 }
 
-type Query {
+type Queryz {
   user(id: String): User
 
   """Fetches an object given its ID"""
