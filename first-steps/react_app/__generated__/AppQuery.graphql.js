@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash f0de79dcb17b5a3b1b12611c0519c6b1
+ * @relayHash 872ec23d08af964bedebaa903d346b3a
  */
 
 /* eslint-disable */
@@ -110,7 +110,7 @@ return {
   "fragment": {
     "kind": "Fragment",
     "name": "AppQuery",
-    "type": "Queryz",
+    "type": "Query",
     "metadata": null,
     "argumentDefinitions": (v0/*: any*/),
     "selections": (v1/*: any*/)

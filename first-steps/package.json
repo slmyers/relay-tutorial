@@ -1,8 +1,7 @@
 {
   "scripts": {
-    "start": "node ./index.js",
-    "start:watch": "nodemon yarn start",
-    "build": "relay-compiler --src ./ReactApp/ --schema ./data/schema.graphql --artifactDirectory ./__generated__/relay",
+    "start": "nodemon node ./index.js",
+    "build": "relay-compiler --src ./react_app/ --schema ./schema.graphql",
     "update:schema": "node ./updateSchema.js"
   },
   "name": "first-steps",

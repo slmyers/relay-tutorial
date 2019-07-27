@@ -1,8 +1,6 @@
 /*
-TODO: Split this code into a folder called backend
-      have the schema.graphql generated in a folder called schema
-      move the scripts stuff into schema
-      delete data folder
+  NOTE: if you change the graphql in the backend you will have to run
+  yarn build.
 */
 const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLBoolean } = require('graphql');
 const { nodeField, database, GraphQLUser } = require('./nodes.js');

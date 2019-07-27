@@ -23,6 +23,7 @@ const modernEnvironment = new Environment({
     // use https://github.com/relayjs/relay-devtools to inspect the store during
     // application use. Make sure you install the relay tools.
     // https://github.com/entria/entria-fullstack/blob/091495/packages/web/src/relay/Environment.tsx#L9-L12
+    // there are some computers I can't get to pay well with the devtools
     store: new Store(new RecordSource()),
 });
 // we will return the data for one user
@@ -40,7 +41,7 @@ export const AppQuery = graphql`
 
 const rootElement = document.getElementById("root")
 
-if (rootElement) {
+if (rootElement) {zzzzz
     ReactDOM.render(
         // QueryRenderer is used to request data and control 
         // the rendering process during load. It is a relay component.
@@ -50,9 +51,10 @@ if (rootElement) {
             variables={{ userId: "0", }}
             render={({error, props}) => {
                 if (props && props.user) {
-                return <pre>{JSON.stringify(props.user, null, 4)}</pre>;
+                    alert("hi")
+                    return <pre>{JSON.stringify(props.user, null, 4)}</pre>;
                 } else if (error) {
-                return <pre style={{width: 300}}>{error.message}</pre>;
+                    return <pre style={{width: 300}}>{error.message}</pre>;
                 }
 
                 return <div>Loading</div>;
